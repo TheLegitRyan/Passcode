@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Passcode Screen</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main id="viewport" aria-label="Passcode screen">
+
+    <!-- PASSCODE SCREEN -->
+    <div id="stage">
+
+      <div id="keypad" aria-label="Keypad">
+
+        <button class="key" data-key="1" aria-label="1"></button>
+        <button class="key" data-key="2" aria-label="2"></button>
+        <button class="key" data-key="3" aria-label="3"></button>
+
+        <button class="key" data-key="4" aria-label="4"></button>
+        <button class="key" data-key="5" aria-label="5"></button>
+        <button class="key" data-key="6" aria-label="6"></button>
+
+        <button class="key" data-key="7" aria-label="7"></button>
+        <button class="key" data-key="8" aria-label="8"></button>
+        <button class="key" data-key="9" aria-label="9"></button>
+
+        <button class="key" data-key="0" aria-label="0"></button>
+
+      </div>
+
+      <div id="dots" aria-label="Passcode progress">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+
+      <!-- INVISIBLE TOP-LEFT BUTTON -->
+      <button
+        id="revealCodeButton"
+        aria-label="View entered code">
+      </button>
+
+      <!-- CODE VIEW PANEL -->
+      <div id="codePanel" aria-hidden="true">
+
+        <div id="codePanelBox">
+
+          <div class="codePanelTitle">
+            Entered code
+          </div>
+
+          <div id="revealedCode">
+            —
+          </div>
+
+          <button id="closeCodePanel">
+            Close
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- IMAGE SHOWN AFTER CODE -->
+    <div id="resultScreen" aria-hidden="true">
+      <img src="wall.png" alt="">
+    </div>
+
+
+    <!-- FADE TRANSITION -->
+    <div id="fade"></div>
+
+  </main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
