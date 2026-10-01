@@ -34,8 +34,6 @@
   const CODE_LENGTH = 6;
 
 
-  let scale = 1;
-
   let enteredCode = "";
 
   let transitioning = false;
@@ -54,7 +52,7 @@
       window.innerHeight;
 
 
-    scale =
+    const scale =
       Math.max(
         vw / IMAGE_W,
         vh / IMAGE_H
@@ -85,38 +83,66 @@
 
     button.classList.add("flash");
 
-
-    button.addEventListener(
-      "animationend",
-      () => {
-
-        button.classList.remove("flash");
-
-      },
-      { once: true }
-    );
-
   }
 
 
   /* =========================
-     FILL DOT
+     ENTER DIGIT
      ========================= */
 
-  function fillNextDot() {
+  function pressKey(button) {
 
-    const index =
-      enteredCode.length - 1;
+    if (transitioning)
+      return;
 
 
     if (
-      index >= 0 &&
-      index < dots.length
+      enteredCode.length >=
+      CODE_LENGTH
+    ) {
+      return;
+    }
+
+
+    flashKey(button);
+
+
+    enteredCode +=
+      button.dataset.key;
+
+
+    const dot =
+      dots[enteredCode.length - 1];
+
+
+    if (dot) {
+
+      dot.classList.add("filled");
+
+    }
+
+
+    /* Haptic feedback */
+
+    if (navigator.vibrate) {
+
+      try {
+
+        navigator.vibrate(8);
+
+      } catch (_) {}
+
+    }
+
+
+    /* SIXTH DIGIT */
+
+    if (
+      enteredCode.length ===
+      CODE_LENGTH
     ) {
 
-      dots[index]
-        .classList
-        .add("filled");
+      finishEntry();
 
     }
 
@@ -124,21 +150,7 @@
 
 
   /* =========================
-     CLEAR DOTS
-     ========================= */
-
-  function clearDots() {
-
-    dots.forEach(
-      dot =>
-        dot.classList.remove("filled")
-    );
-
-  }
-
-
-  /* =========================
-     FINISH CODE
+     FINISH / FADE
      ========================= */
 
   function finishEntry() {
@@ -150,27 +162,12 @@
     transitioning = true;
 
 
-    /* Store/display the complete code */
-    revealedCode.textContent =
-      enteredCode;
-
-
-    /*
-      Give the final dot a tiny moment
-      before starting the transition.
-    */
-
     setTimeout(() => {
 
       viewport.classList.add(
         "transitioning"
       );
 
-
-      /*
-        Once the fade has completed,
-        permanently show the new image.
-      */
 
       setTimeout(() => {
 
@@ -189,68 +186,13 @@
 
       }, 560);
 
-
     }, 110);
 
   }
 
 
   /* =========================
-     KEYPRESS
-     ========================= */
-
-  function pressKey(button) {
-
-    if (
-      transitioning ||
-      enteredCode.length >= CODE_LENGTH
-    ) {
-      return;
-    }
-
-
-    flashKey(button);
-
-
-    enteredCode +=
-      button.dataset.key;
-
-
-    fillNextDot();
-
-
-    /* Haptic feedback */
-
-    if (navigator.vibrate) {
-
-      try {
-
-        navigator.vibrate(8);
-
-      } catch (_) {}
-
-    }
-
-
-    /*
-      SIXTH DIGIT ENTERED
-      -> START TRANSITION
-    */
-
-    if (
-      enteredCode.length ===
-      CODE_LENGTH
-    ) {
-
-      finishEntry();
-
-    }
-
-  }
-
-
-  /* =========================
-     KEYPAD EVENTS
+     KEYPAD
      ========================= */
 
   keys.forEach(button => {
@@ -270,7 +212,7 @@
 
 
   /* =========================
-     TOP-LEFT SECRET BUTTON
+     SECRET TOP-LEFT BUTTON
      ========================= */
 
   revealCodeButton.addEventListener(
@@ -279,20 +221,29 @@
 
       event.preventDefault();
 
+      event.stopPropagation();
 
-      revealedCode.textContent =
-        enteredCode ||
-        "Nothing entered";
+
+      /*
+       * Show the actual digits
+       * entered into the keypad.
+       */
+
+      if (enteredCode.length > 0) {
+
+        revealedCode.textContent =
+          enteredCode;
+
+      } else {
+
+        revealedCode.textContent =
+          "Nothing entered";
+
+      }
 
 
       codePanel.classList.add(
         "visible"
-      );
-
-
-      codePanel.setAttribute(
-        "aria-hidden",
-        "false"
       );
 
     }
@@ -300,7 +251,7 @@
 
 
   /* =========================
-     CLOSE CODE PANEL
+     CLOSE
      ========================= */
 
   closeCodePanel.addEventListener(
@@ -309,38 +260,27 @@
 
       event.preventDefault();
 
-
       codePanel.classList.remove(
         "visible"
-      );
-
-
-      codePanel.setAttribute(
-        "aria-hidden",
-        "true"
       );
 
     }
   );
 
 
-  /* Close by tapping outside panel */
+  /* Tap outside the box */
 
   codePanel.addEventListener(
     "pointerdown",
     event => {
 
       if (
-        event.target === codePanel
+        event.target ===
+        codePanel
       ) {
 
         codePanel.classList.remove(
           "visible"
-        );
-
-        codePanel.setAttribute(
-          "aria-hidden",
-          "true"
         );
 
       }
@@ -350,19 +290,18 @@
 
 
   /* =========================
-     RESIZE / ROTATION
+     RESIZE
      ========================= */
 
   window.addEventListener(
     "resize",
-    resizeStage,
-    { passive: true }
+    resizeStage
   );
+
 
   window.addEventListener(
     "orientationchange",
-    resizeStage,
-    { passive: true }
+    resizeStage
   );
 
 
@@ -385,14 +324,7 @@
 
       }
 
-    } catch (_) {
-
-      /*
-        Fullscreen may be denied by
-        the browser. The page still works.
-      */
-
-    }
+    } catch (_) {}
 
   }
 
@@ -404,11 +336,6 @@
   );
 
 
-  /* =========================
-     INITIALIZE
-     ========================= */
-
   resizeStage();
 
 })();
- 
