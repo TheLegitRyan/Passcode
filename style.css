@@ -216,13 +216,17 @@ body {
    PASSCODE DOTS
    ========================= */
 
+/* =========================
+   PASSCODE DOTS
+   ========================= */
+
 #dots {
   position: absolute;
 
-  left: 388px;
-  top: 505px;
+  left: 384px;
+  top: 506px;
 
-  width: 318px;
+  width: 275px;
   height: 25px;
 
   pointer-events: none;
@@ -236,9 +240,7 @@ body {
   width: 20px;
   height: 20px;
 
-  border:
-    2px solid
-    rgba(255,255,255,.95);
+  border: 2px solid rgba(255,255,255,.95);
 
   border-radius: 50%;
 
@@ -250,41 +252,20 @@ body {
     transform 100ms ease;
 }
 
-.dot:nth-child(1) {
-  left: -2px;
-}
-
-.dot:nth-child(2) {
-  left: 50px;
-}
-
-.dot:nth-child(3) {
-  left: 100px;
-}
-
-.dot:nth-child(4) {
-  left: 150px;
-}
-
-.dot:nth-child(5) {
-  left: 200px;
-}
-
-.dot:nth-child(6) {
-  left: 250px;
-}
+.dot:nth-child(1) { left: 0px; }
+.dot:nth-child(2) { left: 53px; }
+.dot:nth-child(3) { left: 103px; }
+.dot:nth-child(4) { left: 154px; }
+.dot:nth-child(5) { left: 204px; }
+.dot:nth-child(6) { left: 255px; }
 
 .dot.filled {
-  background:
-    rgba(255,255,255,.96);
+  background: rgba(255,255,255,.96);
 
-  box-shadow:
-    0 0 4px rgba(255,255,255,.35);
+  box-shadow: 0 0 4px rgba(255,255,255,.35);
 
-  transform:
-    scale(.92);
+  transform: scale(.92);
 }
-
 
 /* =========================
    INVISIBLE TOP-LEFT BUTTON
